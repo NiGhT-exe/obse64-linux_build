@@ -1,4 +1,4 @@
-#include <ShlObj.h>
+#include <shlobj.h>
 #include <tlhelp32.h>
 #include "obse64_common/Types.h"
 #include "obse64_common/Errors.h"
@@ -12,10 +12,14 @@
 #include "Inject.h"
 #include "Options.h"
 #include "SigCheck.h"
+#include "obse64_common/MinGWDebug.h"
 #include <string>
 
 int main(int argc, char ** argv)
 {
+	// Initialize debug log
+	MinGWDebug::Initialize();
+
 	DebugLog::openRelative(CSIDL_MYDOCUMENTS, "\\My Games\\" SAVE_FOLDER_NAME "\\OBSE\\Logs\\obse64_loader.txt");
 	//gLog.SetPrintLevel(IDebugLog::kLevel_FatalError);
 	//gLog.SetLogLevel(IDebugLog::kLevel_DebugMessage);
@@ -361,6 +365,9 @@ int main(int argc, char ** argv)
 	// clean up
 	CloseHandle(procInfo.hProcess);
 	CloseHandle(procInfo.hThread);
+	
+	// Close debug log
+	MinGWDebug::Close();
 
 	return 0;
 }

@@ -1,7 +1,7 @@
 #include "LoaderError.h"
 #include <cstdarg>
 #include <cstdio>
-#include <Windows.h>
+#include <windows.h>
 #include "obse64_common/Log.h"
 
 void PrintLoaderError(const char * fmt, ...)

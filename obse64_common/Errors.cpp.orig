@@ -6,7 +6,7 @@
 
 [[noreturn]] static void IErrors_Halt(void)
 {
-	std::abort();
+	__ud2();
 }
 
 /**

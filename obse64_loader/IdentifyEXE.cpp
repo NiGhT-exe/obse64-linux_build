@@ -3,7 +3,7 @@
 #include "obse64_common/obse64_version.h"
 #include "obse64_common/Log.h"
 #include <string>
-#include <Windows.h>
+#include <windows.h>
 
 bool GetFileVersion(const char * path, VS_FIXEDFILEINFO * info, std::string * outProductName, std::string * outProductVersion)
 {
@@ -19,7 +19,7 @@ bool GetFileVersion(const char * path, VS_FIXEDFILEINFO * info, std::string * ou
 	u8	* versionBuf = new u8[versionSize];
 	if(versionBuf)
 	{
-		if(GetFileVersionInfo(path, NULL, versionSize, versionBuf))
+		if(GetFileVersionInfo(path, 0, versionSize, versionBuf))
 		{
 			VS_FIXEDFILEINFO	* retrievedInfo = NULL;
 			u32				realVersionSize = sizeof(VS_FIXEDFILEINFO);

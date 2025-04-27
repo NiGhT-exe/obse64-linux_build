@@ -2,7 +2,7 @@
 #include "obse64_common/Utilities.h"
 #include "obse64_common/Log.h"
 #include "obse64_common/Errors.h"
-#include <Windows.h>
+#include <windows.h>
 #include <cstring>
 #include <vector>
 
@@ -13,8 +13,8 @@
 // use wintrust for authenticode validation
 // use wincrypt for examining the cert
 
-#include <WinTrust.h>
-#include <SoftPub.h>
+#include <wintrust.h>
+#include <softpub.h>
 #include <wincrypt.h>
 
 class FileCertVerifier

@@ -64,6 +64,16 @@ target_compile_features(
 		cxx_std_17
 )
 
+target_compile_options(
+	${PROJECT_NAME}
+	PUBLIC
+		$<$<CXX_COMPILER_ID:MSVC>:/wd4200>
+		$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-unused-parameter>
+		$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-unused-variable>
+		$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fpermissive>
+		$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fno-strict-aliasing>
+)
+
 target_include_directories(
 	${PROJECT_NAME}
 	PUBLIC
@@ -75,10 +85,14 @@ target_link_libraries(
 	${PROJECT_NAME}
 	PUBLIC
 		obse64::obse64_common
-		Shlwapi.lib
-		Version.lib
-		Wintrust.lib
-		Crypt32.lib
+		$<$<CXX_COMPILER_ID:MSVC>:Shlwapi.lib>
+		$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:shlwapi>
+		$<$<CXX_COMPILER_ID:MSVC>:Version.lib>
+		$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:version>
+		$<$<CXX_COMPILER_ID:MSVC>:Wintrust.lib>
+		$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:wintrust>
+		$<$<CXX_COMPILER_ID:MSVC>:Crypt32.lib>
+		$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:crypt32>
 )
 
 # ---- Configure all targets ----

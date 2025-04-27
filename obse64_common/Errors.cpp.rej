@@ -1,0 +1,15 @@
+--- obse64_common/Errors.cpp
++++ obse64_common/Errors.cpp
+@@ -3,10 +3,11 @@
+ #include "Types.h"
+ #include <cstdlib>
+ #include <intrin.h>
++#include <cstdlib>
+ 
+ [[noreturn]] static void IErrors_Halt(void)
+ {
+-	__ud2();
++	std::abort();
+ 
+ 
+ 

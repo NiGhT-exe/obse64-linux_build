@@ -2,7 +2,8 @@
 #include "IdentifyEXE.h"
 #include "obse64_common/FileStream.h"
 #include "obse64_common/Log.h"
-#include <Windows.h>
+#include "obse64_common/MinGWDebug.h"
+#include <windows.h>
 
 // remote thread creation
 
@@ -13,13 +14,12 @@ bool InjectDLLThread(PROCESS_INFORMATION * info, const char * dllPath, bool sync
 	bool	result = false;
 
 	// wrap DLL injection in SEH, if it crashes print a message
-	__try {
+	MINGW_TRY_BEGIN("InjectDLLThread")
 		result = DoInjectDLLThread(info, dllPath, sync, noTimeout);
-	}
-	__except(EXCEPTION_EXECUTE_HANDLER)
-	{
+	MINGW_TRY_END("InjectDLLThread")
+	
+	if (!result) {
 		PrintLoaderError("DLL injection failed. In most cases, this is caused by an overly paranoid software firewall or antivirus package. Disabling either of these may solve the problem.");
-		result = false;
 	}
 
 	return result;

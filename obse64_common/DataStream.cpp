@@ -24,5 +24,5 @@ void copy(DataStream * src, DataStream * dst, size_t len, void * buf, size_t buf
 	}
 
 	if (localBuf)
-		delete [] buf;
+		delete [] static_cast<u8*>(buf);
 }

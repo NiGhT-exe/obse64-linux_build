@@ -8,7 +8,7 @@
 #include "obse64/PluginAPI.h"
 #include "obse64_common/Types.h"
 
-#include <Windows.h>
+#include <windows.h>
 
 class PluginManager
 {

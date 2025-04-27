@@ -2,7 +2,10 @@
 #include "obse64_common/Log.h"
 #include "obse64_common/Errors.h"
 #include <string>
-#include <Windows.h>
+#include <windows.h>
+#include "SafeWrite.h"
+#include "obse64_common/CoreInfo.h"
+#include "MinGWDebug.h"
 
 std::string getRuntimePath()
 {
@@ -229,8 +232,7 @@ struct RTTILocator
 const char * getObjectClassName(void * objBase)
 {
 	const char	* result = "<no rtti>";
-	__try
-	{
+	MINGW_TRY_BEGIN("getObjectClassName")
 		void		** obj = (void **)objBase;
 		RTTILocator	** vtbl = (RTTILocator **)obj[0];
 		RTTILocator	* rtti = vtbl[-1];
@@ -251,11 +253,7 @@ const char * getObjectClassName(void * objBase)
 				}
 			}
 		}
-	}
-	__except(EXCEPTION_EXECUTE_HANDLER)
-	{
-		// return the default
-	}
+	MINGW_TRY_END("getObjectClassName")
 
 	return result;
 }

@@ -6,6 +6,14 @@
 #include "obse64_common/BranchTrampoline.h"
 #include "obse64_common/Log.h"
 #include "obse64_common/Errors.h"
+#include "obse64_common/MinGWDebug.h"
+#include <cassert>
+#include <string>
+#include <vector>
+#include <map>
+#include <list>
+#include <windows.h>
+#include <psapi.h>
 
 PluginManager	g_pluginManager;
 
@@ -70,15 +78,9 @@ void PluginManager::init()
 		// avoid realloc
 		m_plugins.reserve(5);
 
-		__try
-		{
+		MINGW_TRY_BEGIN("PluginManager::init")
 			scanPlugins();
-		}
-		__except(EXCEPTION_EXECUTE_HANDLER)
-		{
-			// something very bad happened
-			_ERROR("exception occurred while loading plugins");
-		}
+		MINGW_TRY_END("PluginManager::init")
 	}
 }
 
@@ -410,18 +412,12 @@ const char * PluginManager::checkAddressLibrary(void)
 
 const char * PluginManager::safeCallLoadPlugin(LoadedPlugin * plugin, const OBSEInterface * obse64, u32 phase)
 {
-	__try
-	{
+	MINGW_TRY_BEGIN("PluginManager::safeCallLoadPlugin")
 		if(!plugin->load[phase](obse64))
 		{
 			return "reported as incompatible during load";
 		}
-	}
-	__except(EXCEPTION_EXECUTE_HANDLER)
-	{
-		// something very bad happened
-		return "disabled, fatal error occurred while loading plugin";
-	}
+	MINGW_TRY_END("PluginManager::safeCallLoadPlugin")
 
 	return nullptr;
 }
@@ -454,8 +450,7 @@ static const PluginCompatEntry	kPluginCompatList[] =
 
 const char * PluginManager::checkPluginCompatibility(const OBSEPluginVersionData & version)
 {
-	__try
-	{
+	MINGW_TRY_BEGIN("PluginManager::checkPluginCompatibility")
 		// basic validity
 		if(!version.dataVersion)
 		{
@@ -553,12 +548,7 @@ const char * PluginManager::checkPluginCompatibility(const OBSEPluginVersionData
 		{
 			return "disabled, requires newer script extender";
 		}
-	}
-	__except(EXCEPTION_EXECUTE_HANDLER)
-	{
-		// paranoia
-		return "disabled, fatal error occurred while checking plugin compatibility";
-	}
+	MINGW_TRY_END("PluginManager::checkPluginCompatibility")
 
 	return nullptr;
 }

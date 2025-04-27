@@ -124,7 +124,12 @@ target_link_libraries(
 target_compile_options(
 	${PROJECT_NAME}
 	PUBLIC
-		/wd4200
+		$<$<CXX_COMPILER_ID:MSVC>:/wd4200>
+		$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-unused-parameter>
+		$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-unused-variable>
+		$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fpermissive>
+		$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-write-strings>
+		$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fno-strict-aliasing>
 )
 
 # ---- Configure all targets ----

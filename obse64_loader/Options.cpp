@@ -1,7 +1,7 @@
 #include "Options.h"
 #include "obse64_common/Log.h"
 #include "obse64_common/Errors.h"
-#include <Windows.h>
+#include <windows.h>
 
 Options g_options;
 

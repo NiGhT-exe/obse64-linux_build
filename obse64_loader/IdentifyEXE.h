@@ -2,7 +2,7 @@
 
 #include "obse64_common/Types.h"
 #include <string>
-#include <Windows.h>
+#include <windows.h>
 
 enum
 {

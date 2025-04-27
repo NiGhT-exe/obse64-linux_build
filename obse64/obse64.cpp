@@ -1,5 +1,5 @@
-#include <Windows.h>
-#include <ShlObj.h>
+#include <windows.h>
+#include <shlobj.h>
 #include <corecrt_startup.h>
 #include "obse64_common/Log.h"
 #include "obse64_common/obse64_version.h"
@@ -8,6 +8,9 @@
 #include "obse64_common/BranchTrampoline.h"
 #include "obse64_common/CoreInfo.h"
 #include "PluginManager.h"
+#include "GameConsole.h"
+#include "GameScript.h"
+#include "obse64_common/MinGWDebug.h"
 
 #include "Hooks_Script.h"
 #include "Hooks_Version.h"
@@ -92,6 +95,9 @@ void OBSE64_Preinit()
 	if(runOnce) return;
 	runOnce = true;
 
+	// Initialize MinGW debug log
+	MinGWDebug::Initialize();
+
 	SYSTEMTIME now;
 	GetSystemTime(&now);
 
@@ -165,6 +171,8 @@ extern "C" {
 			break;
 
 		case DLL_PROCESS_DETACH:
+			// Close debug log
+			MinGWDebug::Close();
 			break;
 		};
 
@@ -177,4 +185,9 @@ extern "C" {
 
 		RUNTIME_VERSION,
 	};
+
+	void __declspec(dllexport) __cdecl RuntimeError()
+	{
+		// do nothing, just a hint for the version detection code
+	}
 }

@@ -21,8 +21,36 @@ endif()
 
 # ---- Add source files ----
 
-file(GLOB headers CONFIGURE_DEPENDS *.h)
-file(GLOB sources CONFIGURE_DEPENDS *.cpp)
+set(headers
+	BranchTrampoline.h
+	BufferStream.h
+	CoreInfo.h
+	DataStream.h
+	DirectoryIterator.h
+	Errors.h
+	FileStream.h
+	Log.h
+	obse64_version.h
+	Relocation.h
+	SafeWrite.h
+	Types.h
+	Utilities.h
+	MinGWDebug.h
+)
+
+set(sources
+	BranchTrampoline.cpp
+	BufferStream.cpp
+	DataStream.cpp
+	DirectoryIterator.cpp
+	Errors.cpp
+	FileStream.cpp
+	Log.cpp
+	Relocation.cpp
+	SafeWrite.cpp
+	Utilities.cpp
+	MinGWDebug.cpp
+)
 
 source_group(
 	${PROJECT_NAME}
@@ -53,6 +81,16 @@ target_include_directories(
 	PUBLIC
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
 		$<INSTALL_INTERFACE:include>
+)
+
+target_compile_options(
+	${PROJECT_NAME}
+	PUBLIC
+		$<$<CXX_COMPILER_ID:MSVC>:/wd4200>
+		$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-unused-parameter>
+		$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-unused-variable>
+		$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fpermissive>
+		$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fno-strict-aliasing>
 )
 
 target_link_libraries(
