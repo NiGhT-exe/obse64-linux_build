@@ -22,7 +22,7 @@ cd obse64-linux_build
 
 This will configure the project with the included MinGW toolchain and build the binaries.
 
-## Running with Wine
+## Running The Elder Scrolls IV: Oblivion Remastered
 
 1. Copy the built DLL and EXE files:
    ```
